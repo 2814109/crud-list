@@ -12,7 +12,7 @@ const Main: VFC = () => {
 
   return (
     <Container className="w-50">
-      <CreateForm setList={setList} />
+      <CreateForm list={list} setList={setList} />
       <CRUDList list={list} setList={setList} />
     </Container>
   );

@@ -1,9 +1,13 @@
 import { VFC, useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { ListType } from "../Types/ListType";
+
 interface Props {
+  list: ListType[];
   setList: Function;
 }
-const CreateForm: VFC<Props> = ({ setList }) => {
+
+const CreateForm: VFC<Props> = ({ list, setList }) => {
   const [text, setText] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +15,7 @@ const CreateForm: VFC<Props> = ({ setList }) => {
   };
 
   const handleClick = () => {
-    setList(text);
+    setList([...list, { ...list, id: list.length, task: text }]);
   };
   return (
     <Form>
