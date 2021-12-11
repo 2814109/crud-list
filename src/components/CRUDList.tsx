@@ -1,11 +1,12 @@
-import { VFC } from "react";
+import { VFC, memo } from "react";
 import { Table, Button } from "react-bootstrap";
 import { ListType } from "../Types/ListType";
 interface Props {
   list: ListType[];
-  setList: Function;
+  onDelete: Function;
 }
-const CRUDList: VFC<Props> = ({ list, setList }) => {
+const CRUDList: VFC<Props> = ({ list, onDelete }) => {
+  console.log(list);
   return (
     <Table>
       <thead>
@@ -22,7 +23,7 @@ const CRUDList: VFC<Props> = ({ list, setList }) => {
               <td>{data.id}</td>
               <td>{data.task}</td>
               <td>
-                <ActionSection />
+                <ActionSection key={data.id} id={data.id} onDelete={onDelete} />
               </td>
             </tr>
           );
@@ -32,12 +33,16 @@ const CRUDList: VFC<Props> = ({ list, setList }) => {
   );
 };
 
-const ActionSection: VFC = () => {
+interface ActionSectionProps {
+  id: number;
+  onDelete: Function;
+}
+const ActionSection: VFC<ActionSectionProps> = ({ id, onDelete }) => {
   return (
     <div className="d-flex justify-content-around">
       <Button>edit</Button>
-      <Button>delete</Button>
+      <Button onClick={() => onDelete(id)}>delete</Button>
     </div>
   );
 };
-export default CRUDList;
+export default memo(CRUDList);

@@ -1,22 +1,21 @@
-import { VFC, useState } from "react";
+import { VFC, useState, memo, useCallback } from "react";
 import { Form, Button } from "react-bootstrap";
-import { ListType } from "../Types/ListType";
 
 interface Props {
-  list: ListType[];
-  setList: Function;
+  setListElement: Function;
 }
 
-const CreateForm: VFC<Props> = ({ list, setList }) => {
+const CreateForm: VFC<Props> = ({ setListElement }) => {
   const [text, setText] = useState<string>("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
-  };
+  }, []);
 
-  const handleClick = () => {
-    setList([...list, { ...list, id: list.length, task: text }]);
-  };
+  const handleClick = useCallback(() => {
+    setListElement(text);
+    setText("");
+  }, [text, setListElement]);
   return (
     <Form>
       <Form.Group className="mb-3 " controlId="formTask">
@@ -38,4 +37,4 @@ const CreateForm: VFC<Props> = ({ list, setList }) => {
     </Form>
   );
 };
-export default CreateForm;
+export default memo(CreateForm);
